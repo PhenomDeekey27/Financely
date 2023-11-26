@@ -2,7 +2,7 @@ import Header from "./Components/Header";
 import Dashboard from "./pages/Dashboard";
 import Signup from "./pages/Signup";
 import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
-import "./app.css";
+import "./App.css";
 import { ToastContainer, toast } from 'react-toastify';
 
 
