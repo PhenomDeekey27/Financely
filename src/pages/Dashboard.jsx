@@ -144,6 +144,11 @@ const calculateBalance=()=>
   {
     return new Date(a.date)-new Date(b.date)
   })
+  function Reset()
+  {
+    SetTotalBalance(0)
+    Settransactions([])
+  }
 
  
 
@@ -160,12 +165,13 @@ const calculateBalance=()=>
       income={income}
       expense={expense}
       Totalbalance={Totalbalance}
+      Reset={Reset}
      
      
      
 
       ></Cards>
-      {transactions.length!=0 ? <Page sortedTransactions={sortedTransactions}/>:<h2>No Active Transactions</h2>}
+      {transactions.length!=0 ? <Page sortedTransactions={sortedTransactions}/>:<h2 style={{textAlign:"center"}}>No Active Transactions</h2>}
     
      <AddExpenseModal  ExpenseModalVisible={ExpenseModalVisible} handleExpenseCancel={handleExpenseCancel} onFinish={onFinish} ></AddExpenseModal>
      <AddIncomeModal IncomeModalVisible={IncomeModalVisible} handleIncomeCancel={handleIncomeCancel} onFinish={onFinish}></AddIncomeModal>
