@@ -5,7 +5,7 @@ import Cards from '../Components/Cards/Card'
 import AddExpenseModal from '../Modals/AddExpense'
 import AddIncomeModal from '../Modals/AddIncome'
 
-import { addDoc, collection, getDocs, query } from 'firebase/firestore'
+import { Firestore, addDoc, collection, getDocs, query } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -20,7 +20,9 @@ function Dashboard() {
   const[IncomeModalVisible,SetIncomeModalVisible]=useState(false)
   // these 2 set the state of displaying modal for both income and expense
   const[user]=useAuthState(auth)
-  //we are getting the use from the auth in the firebase
+ 
+  //we are getting the user from the auth in the firebase
+ 
 
   let[transactions,Settransactions]=useState([])
   //we use these array to get the values from the firebase that we have updated earlier
@@ -29,6 +31,8 @@ function Dashboard() {
   const[income,Setincome]=useState(0)
   const[expense,Setexpense]=useState(0)
   const[Totalbalance,SetTotalBalance]=useState(0)
+ 
+ 
  
   const showExpenseModal=()=>
   {
@@ -92,7 +96,6 @@ function Dashboard() {
     
 
   },[user])
-
 useEffect(()=>
 {
   calculateBalance();
@@ -132,6 +135,7 @@ const calculateBalance=()=>
       querySnapshot.forEach((doc)=>
       {
         transactionsArray.push(doc.data())
+        
       })
       Settransactions(transactionsArray);
     
@@ -149,12 +153,36 @@ const calculateBalance=()=>
     SetTotalBalance(0)
     Settransactions([])
   }
+  
+  const Remove=async function()
+  {
+    SetTotalBalance(0);
+    Settransactions([]);
 
+  
+
+          try{
+                const querySnapshot = await getDocs(collection(db, "users", `${user.uid}`,"transactions"));
+                      querySnapshot.forEach((element) => {
+            // doc.data() is never undefined for query doc snapshots
+              deleteDoc(doc(db,`users/${user.uid}/transactions/${element.id}`))
+              toast.success('Transactions Removed')
+              })
+
+        
+
+          
+        }catch(e)
+        {
+          toast.error(e.message)
+
+        }
+        
+
+  }
+    // Remove();
+   
  
-
- 
-
-
   return (
     <div>
       <Header></Header>
@@ -166,6 +194,7 @@ const calculateBalance=()=>
       expense={expense}
       Totalbalance={Totalbalance}
       Reset={Reset}
+      Remove={Remove}
      
      
      

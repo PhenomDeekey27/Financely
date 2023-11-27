@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Radio, Select, Table } from 'antd';
 import"./style.css"
 import Searchimg from "../../assets/Search.svg"
@@ -6,6 +6,8 @@ import Button from '../Button/Button';
 import { parse, unparse } from 'papaparse';
 
 import { toast } from 'react-toastify';
+
+import { Column } from '@ant-design/charts';
 
 
 
@@ -71,6 +73,8 @@ function TransactionTable({transactions,addTransaction,fetchTransactions}) {
         }
       })
 
+
+
       //creating a function to export our table data
       function exportCSV()
       {
@@ -118,6 +122,13 @@ function TransactionTable({transactions,addTransaction,fetchTransactions}) {
           
         }
       }
+      useEffect(()=>
+      {
+        
+      },[sortedTransactions,transactions,addTransaction])
+    
+
+   
   return (
   
  
@@ -188,7 +199,7 @@ function TransactionTable({transactions,addTransaction,fetchTransactions}) {
       </div>
    
    
-    <Table dataSource={sortedTransactions} columns={columns} />
+        <Table dataSource={ [...sortedTransactions]} columns={columns}></Table>
     </div>
     </div>
    
